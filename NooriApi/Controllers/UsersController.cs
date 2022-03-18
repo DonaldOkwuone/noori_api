@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NooriApplication.Interfaces;
+using NooriEntity;
 using NooriInfrastructure.Repository;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,11 @@ namespace NooriApi.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        [HttpGet]
-        public void AddUser()
+        [HttpPost]
+        public Task<int> AddUser(Users user)
         {
-            _unitOfWork.UserRepository.AddAsync(User user);
-
+            var result =  _unitOfWork.UserRepository.AddAsync(user);
+            return result;
         }
     }
 }
