@@ -11,6 +11,6 @@ namespace NooriInfrastructure.Repository
         {
             UserRepository = userRepository;
         }
-        public IUserRepository UserRepository { get ; set ; }
+        public IUserRepository UserRepository { get ; }
     }
 }

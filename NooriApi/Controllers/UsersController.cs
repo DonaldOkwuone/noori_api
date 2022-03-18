@@ -15,17 +15,17 @@ namespace NooriApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        public IUnitOfWork _unitOfWork { get; set; }
+        private readonly IUnitOfWork _unitOfWork;
 
         public UsersController(IUnitOfWork unitOfWork, ILogger<UsersController> logger)
         {
-            _unitOfWork = unitOfWork;
+            this._unitOfWork = unitOfWork;
         }
         [HttpPost]
-        public Task<int> AddUser(Users user)
+        public async Task<IActionResult> AddUser(Users user)
         {
-            var result =  _unitOfWork.UserRepository.AddAsync(user);
-            return result;
+            var result = await this._unitOfWork.UserRepository.AddAsync(user);
+            return Ok(result);
         }
     }
 }
