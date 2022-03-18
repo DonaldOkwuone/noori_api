@@ -10,6 +10,8 @@ namespace NooriApplication.Interfaces
 
         Task<IEnumerable<T>> getAll();
 
+        Task<int> AddAsync(T entity);
+
         Task<T> getById();
 
         Task<int> UpdateAsync(T entity);
