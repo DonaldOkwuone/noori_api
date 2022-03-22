@@ -8,15 +8,15 @@ namespace NooriApplication.Interfaces
     public interface IGenericRepository<T> where T : class
     {
 
-        Task<IEnumerable<T>> getAll();
+        public Task<IEnumerable<T>> getAll();
 
-        Task<int> AddAsync(T entity);
+        public Task<int> AddAsync(T entity);
 
-        Task<T> getById();
+        public Task<T> getById(int Id);
 
-        Task<int> UpdateAsync(T entity);
+        public Task<int> UpdateAsync(T entity);
 
-        Task<int> DeleteAsync(int id);
+        public Task<int> DeleteAsync(int id);
 
 
     }

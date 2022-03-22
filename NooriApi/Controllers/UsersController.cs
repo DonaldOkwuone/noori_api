@@ -24,7 +24,63 @@ namespace NooriApi.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(Users user)
         {
-            var result = await this._unitOfWork.UserRepository.AddAsync(user);
+            try
+            {
+                var result = await this._unitOfWork.UserRepository.AddAsync(user);
+
+                if (result == 1)
+                    return Ok("User account created successfully.");
+                else
+                    return Ok("User not created");
+
+            }
+            catch (Exception)
+            {
+
+                return Ok("User not created");
+            }
+        }
+
+        /// <summary>
+        /// Get all data
+        /// </summary>
+        /// no params
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var result = await this._unitOfWork.UserRepository.getAll();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return Ok("Could not create user");
+            }
+
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var result = await _unitOfWork.UserRepository.getById(id);
+            return Ok(result);
+
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(Users user)
+        {
+            var result = await _unitOfWork.UserRepository.UpdateAsync(user);
+            return Ok(result);
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(int Id)
+        {
+            var result = await _unitOfWork.UserRepository.DeleteAsync(Id);
             return Ok(result);
         }
     }

@@ -6,6 +6,6 @@ namespace NooriApplication.Interfaces
 {
     public interface IUnitOfWork
     {
-        public IUserRepository UserRepository { get; }
+        IUserRepository UserRepository { get; }
     }
 }

@@ -12,43 +12,77 @@ namespace NooriInfrastructure.Repository
 {
     public class UserRepository : IUserRepository
     {
-        IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         public UserRepository(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        public Task<int> AddAsync(Users entity)
+        public async Task<int> AddAsync(Users entity)
         {
-            string SQL = "INSERT INTO NOORI_USERS (username, email, phone, address, birthday, dateadded, datecreated) VALUES (@username, @email, @phone, @address, @birthday, @dateadded, @datecreated)";
+            entity.date_added = DateTime.Now;
+            entity.date_created = DateTime.Now;
+            entity.birthday = DateTime.Now;
+
+            string SQL = "INSERT INTO NOORI_USERS (username, email, phoneno, address, birthday, date_added, date_created) VALUES (@username, @email, @phoneno, @address, @birthday, @date_added, @date_created)";
 
             using (var SqlConn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 SqlConn.Open();
-                var result = SqlConn.ExecuteAsync(SQL, entity);
+                var result = await SqlConn.ExecuteAsync(SQL, entity);
+                return result;
             }
-            throw new NotImplementedException();
         }
 
 
 
-        Task<int> IGenericRepository<Users>.DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int Id)
         {
-            throw new NotImplementedException();
+            string SQL = "DELETE FROM NOORI_USERS WHERE user_id = @user_id";
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var result = await connection.ExecuteAsync(SQL, new { user_id = Id });
+                return result;
+            }
         }
 
-        Task<IEnumerable<Users>> IGenericRepository<Users>.getAll()
+        public async Task<IEnumerable<Users>> getAll()
         {
-            throw new NotImplementedException();
+            string SQL = "SELECT * FROM NOORI_USERS";
+
+            using (var SqlConn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                SqlConn.Open();
+                var result = await SqlConn.QueryAsync<Users>(SQL);
+                return result;
+            }
         }
 
-        Task<Users> IGenericRepository<Users>.getById()
+        public async Task<Users> getById(int id)
         {
-            throw new NotImplementedException();
+            string SQL = "SELECT * FROM NOORI_USERS WHERE user_id = @user_id";
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var result = await connection.QuerySingleOrDefaultAsync<Users>(SQL, new { user_id = id });
+                return result;
+            }
+
         }
 
-        Task<int> IGenericRepository<Users>.UpdateAsync(Users entity)
+        public async Task<int> UpdateAsync(Users entity)
         {
-            throw new NotImplementedException();
+            entity.date_added = DateTime.Now;
+            entity.date_created = DateTime.Now;
+
+            string SQL = "UPDATE NOORI_USERS SET username = @username, email = @email, phoneno = @phoneno, address= @address, birthday = @birthday, date_added = @date_added, date_created = @date_created WHERE user_id = @user_id";
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var result = await connection.ExecuteAsync(SQL, entity);
+                return result;
+            }
+
         }
     }
 }
