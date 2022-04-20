@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NooriApi</name>
+    </assembly>
+    <members>
+        <member name="M:NooriApi.Controllers.UsersController.GetAll">
+            <summary>
+            Get all data
+            </summary>
+            no params
+            <returns></returns>
+        </member>
+    </members>
+</doc>

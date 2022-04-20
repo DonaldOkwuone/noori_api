@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NooriApplication.Interfaces;
+using NooriEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,23 +19,30 @@ namespace NooriApi.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IUnitOfWork unitofwork)
         {
             _logger = logger;
+            _unitOfWork = unitofwork;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IActionResult> Get()
         {
+
+            //_unitOfWork.UserRepository.AddAsync(new Users (){username="Nkem", address="HALIM",birthday="31-03-31" });
+            var users = await _unitOfWork.UserRepository.getAll();
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return Ok(users);
+        }
+
+        [HttpPost]
+        //[Route("getResult")]
+        public async Task<IActionResult> Post([FromBody] Users users)
+        {
+            var result = await _unitOfWork.UserRepository.AddAsync(users);
+            return Ok(result);
         }
     }
 }
