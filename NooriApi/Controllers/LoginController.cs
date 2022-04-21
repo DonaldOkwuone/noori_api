@@ -4,13 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
- 
+using NooriInfrastructure.Services;
+using NooriApplication.Interfaces;
+using NooriEntity;
+
 namespace NooriApi.Controllers
 {
     [Route("api/[controller]")]
  
     public class LoginController : Controller
     {
+        public ILoginService _loginService;
+
+        public LoginController(ILoginService loginService)
+        {
+            _loginService = loginService;
+        }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -19,10 +28,12 @@ namespace NooriApi.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{phonenumber},{password}")]
+        public async Task<IActionResult> Get(string phonenumber, string password)
         {
-            return "value";
+            //retrieve information from database
+            var user = await _loginService.ValidateUser(phonenumber, password);
+            return Ok(user);
         }
 
         // POST api/values

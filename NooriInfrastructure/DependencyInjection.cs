@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NooriApplication.Interfaces;
 using NooriInfrastructure.Repository;
+using NooriInfrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,7 @@ namespace NooriInfrastructure
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ILoginService, LoginService>();
         }
     }
 }
