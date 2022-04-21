@@ -23,7 +23,7 @@ namespace NooriInfrastructure.Repository
             entity.date_created = DateTime.Now;
             entity.birthday = DateTime.Now;
 
-            string SQL = "INSERT INTO NOORI_USERS (username, email, phoneno, address, birthday, date_added, date_created) VALUES (@username, @email, @phoneno, @address, @birthday, @date_added, @date_created)";
+            string SQL = "INSERT INTO NOORI_USERS (username, email, phoneno, address,password, birthday, date_added, date_created) VALUES (@username, @email, @phoneno, @address, @password, @birthday, @date_added, @date_created)";
 
             using (var SqlConn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
@@ -75,7 +75,7 @@ namespace NooriInfrastructure.Repository
             entity.date_added = DateTime.Now;
             entity.date_created = DateTime.Now;
 
-            string SQL = "UPDATE NOORI_USERS SET username = @username, email = @email, phoneno = @phoneno, address= @address, birthday = @birthday, date_added = @date_added, date_created = @date_created WHERE user_id = @user_id";
+            string SQL = "UPDATE NOORI_USERS SET username = @username, email = @email, phoneno = @phoneno, address= @address, password = @password, birthday = @birthday, date_added = @date_added, date_created = @date_created WHERE user_id = @user_id";
             using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 connection.Open();
