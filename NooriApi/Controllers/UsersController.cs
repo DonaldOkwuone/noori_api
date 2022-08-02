@@ -22,6 +22,7 @@ namespace NooriApi.Controllers
             this._unitOfWork = unitOfWork;
         }
 
+        //create user
         [HttpPost]
         public async Task<IActionResult> Post(Users user)
         {

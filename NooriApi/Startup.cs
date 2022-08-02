@@ -7,12 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NooriApplication.Data;
 using NooriInfrastructure;
+using Microsoft.EntityFrameworkCore.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace NooriApi
 {
@@ -34,6 +36,7 @@ namespace NooriApi
             );
             */
             services.AddControllers();
+            services.AddDbContext<NooriDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //Microsoft.AspNetCore.Mvc.NewtonsoftJson
             services.AddSwaggerGen(c =>
             {
@@ -53,6 +56,7 @@ namespace NooriApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
 
             app.UseHttpsRedirection();
 

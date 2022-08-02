@@ -14,7 +14,7 @@ namespace NooriApi.Controllers
  
     public class LoginController : Controller
     {
-        public ILoginService _loginService;
+        private readonly ILoginService _loginService;
 
         public LoginController(ILoginService loginService)
         {

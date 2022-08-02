@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
+using NooriApplication.Data;
 
 namespace NooriInfrastructure.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly IConfiguration _configuration;
-        public UserRepository(IConfiguration configuration)
+        private readonly NooriDbContext _dbDbContext;
+
+        public UserRepository(IConfiguration configuration, NooriDbContext nooriDbContext)
         {
             _configuration = configuration;
+            _dbDbContext = nooriDbContext;
         }
         public async Task<int> AddAsync(Users entity)
         {
