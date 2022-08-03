@@ -15,6 +15,7 @@ namespace NooriInfrastructure
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserRepository, UserDbContextRepo>();
             services.AddTransient<ILoginService, LoginService>();
         }
     }

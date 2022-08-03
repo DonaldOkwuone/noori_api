@@ -20,6 +20,8 @@ namespace NooriApi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,6 +32,14 @@ namespace NooriApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(
+               options => options.AddPolicy(name: MyAllowSpecificOrigins,
+                             policy =>
+                             {
+                                 policy.WithOrigins("https://localhost:44333",
+                                                     "http://localhost:8080").AllowAnyMethod().AllowAnyHeader();
+                             }
+               ));
             services.AddInfrastructure();
             /*services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -47,6 +57,7 @@ namespace NooriApi
                     Title = "Dapper - WebApi",
                 });
             });
+               
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +72,7 @@ namespace NooriApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
             app.UseSwagger();

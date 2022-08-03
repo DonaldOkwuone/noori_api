@@ -11,15 +11,17 @@ namespace NooriInfrastructure.Services
     public class LoginService : ILoginService
     {
         private IConfiguration _configuration;
+        private readonly IUserRepository _repo;
 
-        public LoginService(IConfiguration configuration)
+        public LoginService(IConfiguration configuration, IUserRepository _userRepo )
         {
             _configuration = configuration;
+            _repo = _userRepo;
         }
 
         public async Task<Users> ValidateUser(string phoneno, string password)
         {
-            var SQL = "SELECT * FROM NOORI_USERS WHERE phoneno = @phoneno AND password = @password";
+            var SQL = "SELECT * FROM noori_api_users WHERE phoneno = @phoneno AND password = @password";
             using(var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 connection.Open();
@@ -28,6 +30,7 @@ namespace NooriInfrastructure.Services
                 return result;
             }
         }
+
     }
 }
 
